@@ -5,10 +5,10 @@ __Благодаря файлу .gitignore в текущем каталоге б
 1. Все скрытые вложенные каталоги .terraform  
 2. Все файлы соответствующие маске вида
 
-      *.tfstate  
+      \*.tfstate  
       \*.tfstate.*  
-      *.tfvars  
-      *_override.tf  
+      \*.tfvars  
+      \*_override.tf  
       \*_override.tf.json*  
 где * - соответствует 0 и более любых символов
 
