@@ -1,3 +1,31 @@
+## Доработка заданий 1, 7
+>### Задание 1
+> Изменил содержимое файла .service  
+```
+[Unit]
+Description=node exporter
+Documentation=https://prometheus.io/docs/guides/node-exporter/
+After=multi-user.target
+ 
+[Service]
+ExecStart=/home/vagrant/testdir/prometheus/node/node_exporter-1.2.2.linux-amd64/node_exporter --collector.disable-defaults $COLLECTORS
+EnvironmentFile=/etc/default/node_exporter
+ 
+[Install]
+WantedBy=multi-user.target
+```
+> В файле `/etc/default/node_exporter` добавляем строку с переменной :
+`COLLECTORS=--collector.cpu --collector.cpufreq --collector.diskstats --collector.loadavg --collector.meminfo --collector.netdev --collector.netstat`  
+![](nodexp2.png)
+>### Задание 7  
+> Не понял почему три вызова функции. Как я вижу:  
+`function_name() { function_name | function_name & }` - это определение функции, но еще не её выполнение.    
+> В скобках указаны команды, которые нужно выполнить, т.е. вызвать `function_name` **два** раза.  
+> Затем стоит `;`, которая отделяет определение функции от собственно команды выполнения функции `function_name`.  
+> Можно проверить, сначала выполнив `:(){ :|:& }` и ничего видимого не произойдёт, т.к. мы просто определили функцию `:`.  
+> А затем выполнить `:` и получим такой же эффект, как от выполнения всей строки `:(){ :|:& };:`. Прошу пояснить в чём я ошибаюсь.  
+
+___
 ## Домашнее задание к занятию "3.4. Операционные системы, лекция 2"
 
 1. _На лекции мы познакомились с [node_exporter](https://github.com/prometheus/node_exporter/releases). В демонстрации его исполняемый файл запускался в background. Этого достаточно для демо, но не для настоящей production-системы, где процессы должны находиться под внешним управлением. Используя знания из лекции по systemd, создайте самостоятельно простой [unit-файл](https://www.freedesktop.org/software/systemd/man/systemd.service.html) для node_exporter:_  
