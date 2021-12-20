@@ -28,7 +28,7 @@ ESTAB             0             0                    bobro-desktop:41364        
 ESTAB             0             0                    bobro-desktop:51884                                                   193.238.46.233:443           users:(("GeckoMain",pid=11346,fd=64))              
 CLOSE-WAIT        64            0                    bobro-desktop:51106                        server-52-85-47-17.hel50.r.cloudfront.net:443           users:(("java",pid=15314,fd=155))
 ESTAB             0             0                        localhost:63342                                                        localhost:40600         users:(("java",pid=15314,fd=126))
-> ```
+```
 > Локальный порт 53 - протокол DNS. Стандартный порт сервиса разрешения доменных имён.  
 > Удаленный порт 631 - протокол HTTP. Стандартный порт для сервиса печати CUPS.  
 > Удаленный порт 443 - стандартный порт для соединения по безопасному протоколу HTPPS. В таблице процессы браузера firefox (GeckoMain) и мессенджера telegram.  
