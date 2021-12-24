@@ -18,34 +18,29 @@
 > Настраиваем конфиг сайта:
 > ```
 > cd /etc/apache2/sites-available/  
-> sudo mv 000-default.conf bobrosite.conf && sudo nano bobrosite.conf  
-> ```
-
-```
-<VirtualHost *:443>
-
-        ServerName bobrosite.ru
-        ServerAlias www.bobrosite.ru
-        DocumentRoot /var/www/bobrosite.ru
-
-        SSLEngine on
-        SSLCertificateFile /etc/ssl/certs/apache-ss.crt
-        SSLCertificateKeyFile /etc/ssl/private/apache-ss.key
-
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-        
-</VirtualHost>
-> ```
-> ```
+> sudo mv 000-default.conf bobrosite.conf && sudo nano bobrosite.conf
+> 
+> <VirtualHost *:443>
+>        ServerName bobrosite.ru
+>        ServerAlias www.bobrosite.ru
+>        DocumentRoot /var/www/bobrosite.ru
+>
+>        SSLEngine on
+>        SSLCertificateFile /etc/ssl/certs/apache-ss.crt
+>        SSLCertificateKeyFile /etc/ssl/private/apache-ss.key
+>
+>       ErrorLog ${APACHE_LOG_DIR}/error.log
+>        CustomLog ${APACHE_LOG_DIR}/access.log combined 
+> </VirtualHost>
+> 
 >  sudo mkdir /var/www/bobrosite.ru
 >  sudo nano /var/www/bobrosite.ru/index.html
 >  sudo a2ensite bobrosite.conf
 >  sudo apache2ctl configtest
-> ```
+> 
 > Записываем в /etc/hosts строку `192.168.22.22   bobrosite.ru` и перезапускаем VM.  
 > Заходим по ссылке https://bobrosite.ru:
-
+> ```
 ![](bobrosite.png)
 4. _Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное)._    
 ![](testssl.png)
