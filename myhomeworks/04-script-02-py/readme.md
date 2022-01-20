@@ -120,12 +120,45 @@ $ /home/bobro/pycharm/projects/netology.devops/my.github.project/myhomeworks/04-
 
 ### Ваш скрипт:
 ```python
-...в процессе
+#!/usr/bin/env python3
+
+import socket
+import time
+import os
+
+dns_list = {'google.com': '', 'drive.google.com': '', 'mail.google.com': ''}
+
+while ((1==1)):
+    os.popen('systemd-resolve --flush-caches')
+    print('__________________________________________________________________________')
+    for dns, ip in dns_list.items():
+        cur_ip = socket.gethostbyname(dns)
+        if dns_list[dns] == '':
+            dns_list[dns] = cur_ip
+            print(dns, ' - ', dns_list[dns])
+        elif dns_list[dns] == cur_ip:
+            print(dns, ' - ', dns_list[dns])
+        else:
+            print('[ERROR]', dns, 'IP mismatch:', dns_list[dns], '-', cur_ip)
+            dns_list[dns] = cur_ip
+    time.sleep(2)
 ```
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
+__________________________________________________________________________
+google.com  -  142.251.1.101
+drive.google.com  -  64.233.162.194
+mail.google.com  -  64.233.161.18
+__________________________________________________________________________
+[ERROR] google.com IP mismatch: 142.251.1.101 - 142.251.1.113
+drive.google.com  -  64.233.162.194
+mail.google.com  -  64.233.161.18
+__________________________________________________________________________
+[ERROR] google.com IP mismatch: 142.251.1.113 - 142.251.1.101
+drive.google.com  -  64.233.162.194
+mail.google.com  -  64.233.161.18
+
 ```
 
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
