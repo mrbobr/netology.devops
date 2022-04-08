@@ -53,7 +53,8 @@ CMD ["elasticsearch-8.1.2/bin/elasticsearch"]
 ```
 - ссылку на образ в репозитории dockerhub  
 [образ на Dockerhub](https://hub.docker.com/repository/docker/bobro777/elastic)
-- ответ `elasticsearch` на запрос пути `/` в json виде
+- ответ `elasticsearch` на запрос пути `/` в json виде  
+
 ![](images/curl1.png)
 
 Подсказки:
