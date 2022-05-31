@@ -34,8 +34,9 @@ dynamodb.
 * Вывод команды `terraform plan` для воркспейса `prod`.  
 ![](src/images/workspaces.png)
 
+[Конфигурация terraform](src/terraform_aws)
 <details>
- <summary>terraform plan для prod</summary>
+ <summary>terraform plan для prod (<i>развернуть/свернуть</i>)</summary>
 
 ```
 vagrant@myserver1:/0703terraform/terraform_aws$ terraform plan
@@ -518,3 +519,5 @@ vagrant@myserver1:/0703terraform/terraform_aws$
 ```
 
 </details>
+
+___
