@@ -1,0 +1,3 @@
+[submodule "myhomeworks/07-terraform-04-teamwork/terrcloud/netologyTC"]
+	path = myhomeworks/07-terraform-04-teamwork/terrcloud/netologyTC
+	url = https://github.com/mrbobr/netologyTC
