@@ -1,0 +1,11 @@
+repos:
+    - id: https://github.com/mrbobr/netologyTC
+    allowed_overrides: [workflow]
+    allow_custom_workflows: true
+
+workflows:
+  default:
+    plan:
+        - init
+        - plan:
+            extra_args: ["-lock", "false"]

@@ -1,0 +1,31 @@
+version: 3
+projects:
+- name: stage
+  dir: .
+  workspace: stage
+  autoplan:
+    when_modified: ["*.tf"]
+    enabled: true
+  workflow: mycustomwf
+- name: prod
+  dir: .
+  workspace: prod
+  autoplan:
+    when_modified: ["*.tf"]
+    enabled: true
+  workflow: mycustomwf
+
+workflows:
+  mycustomwf:
+    plan:
+      steps:
+      - init
+      - plan
+    apply:
+      steps:
+      - run: echo Apply on $WORKSPACE
+      - apply
+
+#allowed_regexp_prefixes:
+#- stage/
+#- prod/
