@@ -1,0 +1,6 @@
+---
+vector_version: "0.23.0"
+vector_home_dir: "/etc/vector"
+vector_tmp_dir: "/tmp/vector"
+vector_data_dir: "/var/lib/vector"
+vector_config: "templates/vector.toml"
