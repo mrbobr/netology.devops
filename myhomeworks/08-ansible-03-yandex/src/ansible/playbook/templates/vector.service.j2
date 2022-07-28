@@ -1,0 +1,13 @@
+[Unit]
+Description=Vector service
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+User=vector
+Group=vector
+ExecStart=/usr/bin/vector --config {{ vector_config_dir }}/vector.toml --watch-config
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

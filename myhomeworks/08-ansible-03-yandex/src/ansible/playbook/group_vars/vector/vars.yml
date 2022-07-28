@@ -1,0 +1,12 @@
+---
+vector_version: "0.22.2"
+vector_url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+
+vector_home_dir: "/home/vector"
+vector_config_dir: "{{ vector_home_dir }}/config"
+vector_tmp_dir: "/tmp/vector"
+vector_data_dir: "/home/vector/data"
+#vector config
+vector_config_temlate: "templates/vector.toml.j2"
+vector_service_template: "templates/vector.service.j2"
+vector_systemd_dest: "/etc/systemd/system/vector.service"

@@ -1,0 +1,55 @@
+---
+- name: Install lighthouse
+  hosts: lighthouse
+  handlers:
+    - name: start nginx
+      become: true
+      ansible.builtin.command: nginx
+    - name: restart nginx
+      become: true
+      ansible.builtin.command: nginx -s reload
+  pre_tasks:
+    - name: Install epel-release
+      tags: nginx
+      become: true
+      ansible.builtin.yum:
+        name: epel-release
+        update_cache: true
+        state: present
+    - name: Install nginx
+      tags: nginx
+      become: true
+      ansible.builtin.yum:
+        name: nginx
+        state: present
+      notify: start nginx
+    - name: Install git
+      tags: git
+      become: true
+      ansible.builtin.yum:
+        name: git
+        state: present
+  tasks:
+    - name: Install lighthouse
+      tags: lighthouse
+      become: true
+      ansible.builtin.git:
+        repo: "{{ lighthouse_git }}"
+        version: master
+        dest: "{{ lh_home_dir }}"
+    - name: Config nginx
+      tags: lighthouse
+      become: true
+      ansible.builtin.template:
+        src: "{{ nginx_config_template }}"
+        dest: "{{ nginx_config_dest }}"
+        mode: 0644
+      notify: restart nginx
+    - name: Config lighthouse
+      tags: lighthouse
+      become: true
+      ansible.builtin.template:
+        src: "{{ lh_config_template }}"
+        dest: "{{ lh_config_dest }}"
+        mode: 0644
+      notify: restart nginx

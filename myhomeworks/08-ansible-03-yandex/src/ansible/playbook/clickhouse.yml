@@ -1,0 +1,49 @@
+---
+- name: Install Clickhouse
+  hosts: clickhouse
+  become: true
+  vars:
+    allow_world_readable_tmpfiles: true
+  handlers:
+    - name: Start clickhouse service
+      become: true
+      ansible.builtin.command: "{{ item }}"
+      loop:
+        - clickhouse start
+        - sleep 10
+  tasks:
+    - name: Get rpm, install and start clickhouse
+      tags: clickhouse
+      block:
+        - name: Create clickhouse temp dir
+          ansible.builtin.file:
+            path: "{{ clickhouse_tmp_dir }}"
+            state: directory
+            mode: 0755
+        - name: Get clickhouse distrib *.noarch.rpm
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
+            dest: "{{ clickhouse_tmp_dir }}/{{ item }}-{{ clickhouse_version }}.rpm"
+            mode: 0755
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Get clickhouse-common-static.version.x86_64.rpm
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
+            dest: "{{ clickhouse_tmp_dir }}/clickhouse-common-static-{{ clickhouse_version }}.rpm"
+            mode: 0755
+        - name: Install clickhouse packages
+          become: true
+          ansible.builtin.yum:
+            name:
+              - "{{ clickhouse_tmp_dir }}/clickhouse-common-static-{{ clickhouse_version }}.rpm"
+              - "{{ clickhouse_tmp_dir }}/clickhouse-client-{{ clickhouse_version }}.rpm"
+              - "{{ clickhouse_tmp_dir }}/clickhouse-server-{{ clickhouse_version }}.rpm"
+          notify: Start clickhouse service
+  post_tasks:
+    - name: Create database
+      tags: clickhouse
+      ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc !=82
+      changed_when: create_db.rc == 0

@@ -1,0 +1,12 @@
+#version
+#urls
+lighthouse_git: https://github.com/VKCOM/lighthouse
+#dirs
+lh_home_dir: "/opt/lighthouse"
+#config
+nginx_user: root
+nginx_config_template: "templates/nginx.conf.j2"
+nginx_config_dest: "/etc/nginx/nginx.conf"
+lh_config_template: "templates/lighthouse.conf.j2"
+lh_config_dest: "/etc/nginx/conf.d/default.conf"
+lh_alog_name: lighthouse_access

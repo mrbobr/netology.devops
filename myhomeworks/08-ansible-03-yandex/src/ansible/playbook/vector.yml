@@ -1,0 +1,69 @@
+---
+- name: Install Vector
+  hosts: vector
+  tasks:
+    - name: Create user/group
+      tags: vector
+      block:
+        - name: Create vector group
+          become: true
+          ansible.builtin.group:
+            name: vector
+        - name: Create vector user
+          become: true
+          ansible.builtin.user:
+            group: vector
+            groups:
+              - users
+              - adm
+              - systemd-journal
+            name: vector
+    - name: Create vector dirs
+      tags: vector
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+        owner: vector
+        group: vector
+      loop:
+        - "{{ vector_home_dir }}"
+        - "{{ vector_tmp_dir }}"
+        - "{{ vector_data_dir }}"
+        - "{{ vector_config_dir }}"
+    - name: Install Vector
+      tags: vector
+      become: true
+      ansible.builtin.yum:
+        name: "{{ vector_url }}"
+        update_cache: true
+        state: present
+    - name: Vector config
+      tags: vector
+      become: true
+      ansible.builtin.template:
+        backup: true
+        src: "{{ vector_config_temlate }}"
+        dest: "{{ vector_config_dir }}/vector.toml"
+        group: vector
+        owner: vector
+        mode: "0644"
+        validate: vector validate --no-environment -- %s
+    - name: Create Vector service
+      become: true
+      tags: vector
+      ansible.builtin.template:
+        backup: true
+        src: "{{ vector_service_template }}"
+        dest: "{{ vector_systemd_dest }}"
+        group: vector
+        owner: vector
+        mode: "0644"
+    - name: Start Vector service
+      become: true
+      tags: vector
+      ansible.builtin.systemd:
+        name: vector
+        state: started
+        daemon_reload: true
